@@ -14,12 +14,12 @@ A single “unit” LSTM step with 8-element inputs. For each time step:
 - **Gates**
   - `f = σ(Uf·ht₋₁ + Wf·xt)`
   - `i = σ(Ui·ht₋₁ + Wi·xt)`
-  - `g = tanh(Ug·ht₋₁ + Wg·xt)` *(can be σ in your current Sigmoid-only build)*
+  - `g = tanh(Ug·ht₋₁ + Wg·xt)`
   - `o = σ(Uo·ht₋₁ + Wo·xt)`
 - **State / Output**
   - `ct = f ⊙ ct₋₁ + i ⊙ g`
-  - `ht = o ⊙ tanh(ct)` *(your code currently uses σ in places; see notes)*
-
+  - `ht = o ⊙ tanh(ct)`
+  
 **Data width & packing**
 - Element width **N = 8** bits, vector length **S = 8** elements → packed into **64-bit** buses.
 - Packed bus slicing convention:
