@@ -81,9 +81,4 @@ Or adjust the thresholds/LUT to match your fixed-point scaling.
 
 ### `iniValues_ROM.sv`
 - **What:** Tiny **8×64-bit ROM** for weight vectors.
-- **Recommended form (no port mismatch):**
-  ```systemverilog
-  module iniValues_ROM #(parameter int unsigned INDEX = 0)
-  (output logic [63:0] data);
-
 
