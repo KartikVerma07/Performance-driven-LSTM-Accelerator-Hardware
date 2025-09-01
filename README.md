@@ -35,23 +35,23 @@ A single “unit” LSTM step with 8-element inputs. For each time step:
 
 ## 2) Repository layout
 .
-├── rtl/
-│   ├── mvm_proposed.sv        # DA-based MVM (N=8,S=8)
-│   ├── LSTMCell.sv            # Top-level LSTM cell using mvm_proposed
-│   ├── cellState.sv           # ct/ht update
-│   ├── SigAddSub.sv           # pre-activation add/abs + sigmoid call
-│   ├── Sigmoid.sv             # sigmoid LUT (9-bit in -> 8-bit out)
-│   ├── Tanh_ROM.sv            # tanh LUT ROM (optional if used)
-│   ├── Sig_ROM.sv             # sigmoid LUT ROM (optional if used)
-│   └── iniValues_ROM.sv       # small 8x64b weight ROM
-├── tb/
-│   ├── tb_proposed.sv         # testbench for mvm_proposed
-│   └── tb.sv                  # testbench for LSTM cell
-├── mem/
-│   ├── values.txt             # 8 lines of 64-bit hex weight vectors
-│   ├── tanhContent.mif        # Quartus MIF for tanh ROM
-│   └── sigContent.mif         # Quartus MIF for sigmoid ROM
-└── README.md
+├─ rtl/
+│  ├─ mvm_proposed.sv        # DA-based MVM (N=8, S=8, S must be even)
+│  ├─ LSTMCell_proposed.sv   # LSTM unit using mvm_proposed (rename to LSTMCell.sv if you prefer)
+│  ├─ cellState.sv           # ct/ht update logic
+│  ├─ SigAddSub.sv           # pre-activation add/abs + sigmoid call
+│  ├─ Sigmoid.sv             # 9b->8b sigmoid (LUT + thresholds)
+│  ├─ Tanh_ROM.sv            # tanh lookup ROM (optional if used)
+│  ├─ Sig_ROM.sv             # sigmoid lookup ROM (optional if used)
+│  └─ iniValues_ROM.sv       # tiny 8×64b weight ROM (index as parameter or 3-bit port)
+├─ tb/
+│  ├─ tb_proposed.sv         # testbench for mvm_proposed
+│  └─ tb.sv                  # testbench for LSTM cell
+├─ mem/
+│  ├─ values.txt             # 8 lines of 64-bit hex weight vectors (Ui,Uf,Uo,Ug,Wi,Wf,Wo,Wg)
+│  ├─ tanhContent.mif        # Quartus MIF for tanh ROM (synthesis)
+│  └─ sigContent.mif         # Quartus MIF for sigmoid ROM (synthesis)
+└─ README.md
 
 > If your top is named `LSTMCell` (not `_proposed`), just change the instance name in TBs.
 
