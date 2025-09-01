@@ -33,7 +33,7 @@ A single “unit” LSTM step with 8-element inputs. For each time step:
 
 ---
 
-## 2) Modules — what they do and how to wire them
+## 2) Modules — what they do?
 
 ### `mvm_proposed.sv`
 - **What:** Saturating dot product using **distributed arithmetic** over pairs of weights.
