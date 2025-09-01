@@ -39,7 +39,7 @@ A single “unit” LSTM step with 8-element inputs. For each time step:
 - **What:** Saturating dot product using **distributed arithmetic** over pairs of weights.
 - **Params:** `N=8`, `S=8` (**S must be even**).
 - **I/O:**  
-  - `w,u : logic [S*N-1:0]` packed vectors (see slicing rule above).  
+  - `w,u : logic [S*N-1:0]` packed vectors.  
   - `v   : logic [N-1:0]` 8-bit saturated result.
 - **Timing:** input vectors are **registered**; accumulation is combinational → 1-cycle to `v`.
 
