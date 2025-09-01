@@ -69,15 +69,13 @@ A single “unit” LSTM step with 8-element inputs. For each time step:
 **Tip:** For testing, **bias/scale** pre-activations so they spend time in 192..320.
 Or adjust the thresholds/LUT to match your fixed-point scaling.
 
-### `Tanh_ROM.sv` / `Sig_ROM.sv` (optional)
-- **What:** ROM lookup versions of tanh and sigmoid.
-- **Synthesis:** add `(* ram_init_file = "file.mif" *)` to the memory array.
-- **Simulation:** use `$readmemh/$readmemb` with a **hex/bin** file (MIF is not parsed by `$readmem*`).
+### `Tanh_ROM.sv`
+- **What:** ROM lookup versions of tanh.
 
 ### `cellState.sv`
 - **What:** Computes `ct = f*ct1 + i*cand` and `ht = o * activation(ct)`.
 - **Note:** In the provided version, `ct` is assigned the **pre-activation sum** (not passed through tanh),
-  while `ht` uses the nonlinearity. This is intentional in your code; you can switch to tanh(ct) as desired.
+  while `ht` uses the nonlinearity. This is intentional in the code.
 
 ### `iniValues_ROM.sv`
 - **What:** Tiny **8×64-bit ROM** for weight vectors.
