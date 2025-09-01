@@ -2,8 +2,9 @@
 
 A compact, synthesizable **LSTM unit** built from 8-element × 8-bit fixed-point vectors.  
 Gate pre-activations are computed with a fast **distributed-arithmetic** MVM (`mvm_proposed`).  
-Nonlinearities (σ / tanh) are **ROM/LUT-based**. The repo includes clean testbenches and
-setup notes for **ModelSim/Questa** (simulation) and **Quartus** (synthesis).
+Nonlinearities (σ / tanh) are **ROM/LUT-based**. The repo includes clean testbenches
+ for MVM units and the LSTM Cell. 
+ Used: **ModelSim/Questa** (simulation) and **Quartus** (synthesis).
 
 ---
 
