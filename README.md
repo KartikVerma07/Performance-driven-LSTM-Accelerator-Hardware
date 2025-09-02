@@ -120,8 +120,8 @@ Below are the **trial logs (PASS)** and **waveforms** already included in the re
 ### Multiplier-based MVM (`mvm_normal_mul`)
 
 <p float="left">
-  <img src="mvm_with_normal_multiply/mvm_normal(Questa).png" alt="mvm_normal_mul PASS log" width="48%">
-  <img src="mvm_with_normal_multiply/mvm_normal(wave).png"   alt="mvm_normal_mul waveform"  width="48%">
+  <img src="mvm_normal_mul/mvm_normal4x4(Questa).png" alt="mvm_normal_mul PASS log" width="48%">
+  <img src="mvm_normal_mul/mvm_normal4x4(wave).png"   alt="mvm_normal_mul waveform"  width="48%">
 </p>
 
 - **Left:** randomized trials showing `v_ref` vs `v_dut` PASS results  
