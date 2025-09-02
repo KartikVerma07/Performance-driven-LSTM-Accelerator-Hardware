@@ -126,7 +126,7 @@ Below are the **trial logs (PASS)** and **waveforms** already included in the re
 ![mvm_normal_mul waveform](mvm_normal_mul/mvm_normal4x4(wave).png)
 
 - The log shows randomized trials where `v_ref` (golden, saturated dot-product) matches `v_dut`.
-- The waveform highlights `w_bus`, `u_bus`, `v_ref`, `v_dut` and the **1-cycle** capture on the rising edge.
+- The waveform highlights `w_bus`, `u_bus`, `v_ref`, `v_dut`.
 
 ### Distributed-Arithmetic MVM (`mvm_proposed`)
 
@@ -137,7 +137,7 @@ Below are the **trial logs (PASS)** and **waveforms** already included in the re
 ![mvm_proposed waveform](mvm_proposed/mvm_proposed8x8(wave).png)
 
 - The DA unit matches the saturated golden model across trials.
-- The waveform shows the per-bit DA accumulation and the same **1-cycle** latency.
+- The waveform shows the per-bit DA accumulation..
 
 ---
 
