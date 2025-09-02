@@ -81,3 +81,38 @@ Or adjust the thresholds/LUT to match your fixed-point scaling.
 ### `iniValues_ROM.sv`
 - **What:** Tiny **8×64-bit ROM** for weight vectors.
 
+
+
+
+## Resource & Performance (Quartus Flow Summary)
+
+**Target board/device:** Terasic **DE1-SoC** (Intel/Altera **Cyclone V SoC 5CSEMA5F31C6**).  
+
+### Matrix–Vector Multiply (MVM) unit — standard vs. custom (DA/split-matrix)
+
+| Metric | Standard MVM (multiplier-based) | Custom MVM (DA) | Δ (abs) | Δ (%) |
+|---|---:|---:|---:|---:|
+| **DSP blocks** | 8 | **0** | −8 | **−100%** |
+| **ALMs** | 136 | **284** | +148 | **+108.8%** |
+| **Area (report metric)** | 736 | **284** | −452 | **−61.4%** |
+
+**Area reduction factor:** 736 / 284 ≈ **2.59×** (≈ **2.6×**). :contentReference[oaicite:0]{index=0}
+
+---
+
+### LSTM cell — standard vs. custom (built from 8× custom MVMs)
+
+| Metric | Standard LSTM | Custom LSTM | Δ (abs) | Δ (%) |
+|---|---:|---:|---:|---:|
+| **DSP blocks** | 67 | **3** | −64 | **−95.5%** |
+| **ALMs** | 810 | **667** | −143 | **−17.7%** |
+| **Area (report metric)** | 5835 | **667** | −5168 | **−88.6%** |
+
+**Area reduction factor:** 5835 / 667 ≈ **8.75×** (≈ **8.7×**).  
+**Critical Fmax:** **39.64 MHz → 70.4 MHz** (**+77.7%**). :contentReference[oaicite:1]{index=1}
+
+> Notes  
+> • The custom MVM eliminates DSPs using distributed arithmetic; ALM count rises inside the MVM but overall LSTM **area drops sharply** due to DSP removal.  
+> • “Area” is the scalar metric reported in the paper’s flow summary; it is shown here exactly as reported alongside ALMs/DSPs for completeness. :contentReference[oaicite:2]{index=2}
+
+
