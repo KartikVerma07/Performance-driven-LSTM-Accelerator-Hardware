@@ -11,7 +11,7 @@ Nonlinearities (σ / tanh) are **ROM/LUT-based**. The repo includes clean testbe
 ## 1) What this project implements
 
 A single “unit” LSTM step with 8-element inputs. For each time step:
-
+![LSTM Cell block diagram](LSTMCell/LSTM_Cell.png)
 - **Gates**
   - `f = σ(Uf·ht₋₁ + Wf·xt)`
   - `i = σ(Ui·ht₋₁ + Wi·xt)`
