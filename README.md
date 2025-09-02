@@ -119,23 +119,25 @@ Below are the **trial logs (PASS)** and **waveforms** already included in the re
 
 ### Multiplier-based MVM (`mvm_normal_mul`)
 
-<p float="left">
-  <img src="mvm_normal_mul/mvm_normal4x4(Questa).png" alt="mvm_normal_mul PASS log" width="48%">
-  <img src="mvm_normal_mul/mvm_normal4x4(wave).png"   alt="mvm_normal_mul waveform"  width="48%">
-</p>
+**PASS log (randomized trials)**  
+![mvm_normal_mul PASS log](mvm_normal_mul/mvm_normal4x4(Questa).png)
 
-- **Left:** randomized trials showing `v_ref` vs `v_dut` PASS results  
-- **Right:** waveform with `w_bus`, `u_bus`, `v_ref`, `v_dut` (note the **1-cycle** latency)
+**Waveform**  
+![mvm_normal_mul waveform](mvm_normal_mul/mvm_normal4x4(wave).png)
+
+- The log shows randomized trials where `v_ref` (golden, saturated dot-product) matches `v_dut`.
+- The waveform highlights `w_bus`, `u_bus`, `v_ref`, `v_dut` and the **1-cycle** capture on the rising edge.
 
 ### Distributed-Arithmetic MVM (`mvm_proposed`)
 
-<p float="left">
-  <img src="mvm_with_paper_impl/mvm_proposed(Questa).png" alt="mvm_proposed PASS log" width="48%">
-  <img src="mvm_with_paper_impl/mvm_proposed(wave).png"   alt="mvm_proposed waveform"  width="48%">
-</p>
+**PASS log (randomized trials)**  
+![mvm_proposed PASS log](mvm_proposed/mvm_proposed8x8(Questa).png)
 
-- **Left:** DA unit matching the golden saturated dot-product across trials  
-- **Right:** waveform highlighting per-bit DA accumulation and the same **1-cycle** latency
+**Waveform**  
+![mvm_proposed waveform](mvm_proposed/mvm_proposed8x8(wave).png)
+
+- The DA unit matches the saturated golden model across trials.
+- The waveform shows the per-bit DA accumulation and the same **1-cycle** latency.
 
 ---
 
