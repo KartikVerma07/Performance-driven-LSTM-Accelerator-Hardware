@@ -81,43 +81,6 @@ Or adjust the thresholds/LUT to match your fixed-point scaling.
 ### `iniValues_ROM.sv`
 - **What:** Tiny **8×64-bit ROM** for weight vectors.
 
-## Resource & Performance (Quartus Flow Summary)
-
-**Target board/device:** Terasic **DE1-SoC** (Intel/Altera **Cyclone V SoC 5CSEMA5F31C6**).  
-
-### Matrix–Vector Multiply (MVM) unit — standard vs. custom (DA/split-matrix)
-
-| Metric | Standard MVM (multiplier-based) | Custom MVM (DA) | Δ (abs) | Δ (%) |
-|---|---:|---:|---:|---:|
-| **DSP blocks** | 8 | **0** | −8 | **−100%** |
-| **ALMs** | 136 | **284** | +148 | **+108.8%** |
-| **Area (report metric)** | 736 | **284** | −452 | **−61.4%** |
-
-**Area reduction factor:** 736 / 284 ≈ **2.59×** (≈ **2.6×**). :contentReference[oaicite:0]{index=0}
-
----
-
-### LSTM cell — standard vs. custom (built from 8× custom MVMs)
-
-| Metric | Standard LSTM | Custom LSTM | Δ (abs) | Δ (%) |
-|---|---:|---:|---:|---:|
-| **DSP blocks** | 67 | **3** | −64 | **−95.5%** |
-| **ALMs** | 810 | **667** | −143 | **−17.7%** |
-| **Area (report metric)** | 5835 | **667** | −5168 | **−88.6%** |
-
-**Area reduction factor:** 5835 / 667 ≈ **8.75×** (≈ **8.7×**).  
-**Critical Fmax:** **39.64 MHz → 70.4 MHz** (**+77.7%**).
-
-> Notes  
-> • The custom MVM eliminates DSPs using distributed arithmetic; ALM count rises inside the MVM but overall LSTM **area drops sharply** due to DSP removal.  
-> • “Area” is the scalar metric reported in the paper’s flow summary; it is shown here exactly as reported alongside ALMs/DSPs for completeness.
-
-# Performance-Driven LSTM Accelerator (FPGA — Cyclone V)
-
-A compact, synthesizable **LSTM unit** built from 8-element × 8-bit fixed-point vectors.
-Gate pre-activations use a fast **distributed-arithmetic** MVM (`mvm_proposed`). Nonlinearities (σ / tanh) are ROM/LUT-based.
-Includes clean testbenches and setup notes for **ModelSim/Questa** (simulation) and **Quartus** (synthesis).
-
 ---
 
 ## Resource & Performance (Quartus Flow Summary)
@@ -152,34 +115,27 @@ Numbers are taken from the project report’s flow summaries (same synthesis set
 
 ## Testing & Verification — MVM Units
 
-This section documents how the two MVM variants are verified and **inlines the existing screenshots** already present in the repo.
+Below are the **trial logs (PASS)** and **waveforms** already included in the repo for both MVM implementations.
 
-### Method
+### Multiplier-based MVM (`mvm_normal_mul`)
 
-- **Golden model (scoreboard):**  
-  \[
-  v_{\text{ref}}=\operatorname{sat}_8\!\left(\sum_{i=0}^{S-1}\operatorname{sat}_8(w_i\cdot u_i)\right)
-  \]
-  (`sat_8` clamps to 8-bit unsigned 0..255).
-- **Latency alignment:** each MVM registers inputs once → TB drives on **negedge** and checks one **posedge** later (with a tiny `#1ps` settle).
-- **Randomization:** `w[i]`, `u[i]` sampled from `0..MAX_RAND` (default 10).
-- **Pass/Fail:** bit-exact compare `v_dut` vs `v_ref`; logs also print **signed** and **hex** views.
+<p float="left">
+  <img src="mvm_with_normal_multiply/mvm_normal(Questa).png" alt="mvm_normal_mul PASS log" width="48%">
+  <img src="mvm_with_normal_multiply/mvm_normal(wave).png"   alt="mvm_normal_mul waveform"  width="48%">
+</p>
 
-### Run (ModelSim/Questa)
+- **Left:** randomized trials showing `v_ref` vs `v_dut` PASS results  
+- **Right:** waveform with `w_bus`, `u_bus`, `v_ref`, `v_dut` (note the **1-cycle** latency)
 
-```tcl
-# from repo root
-vlib work
+### Distributed-Arithmetic MVM (`mvm_proposed`)
 
-# multiplier-based MVM
-vlog +acc +sv rtl/mvm_normal_mul.sv tb/tb_normal_mul.sv
-vsim -voptargs=+acc work.tb_normal_mul
-run -all
+<p float="left">
+  <img src="mvm_with_paper_impl/mvm_proposed(Questa).png" alt="mvm_proposed PASS log" width="48%">
+  <img src="mvm_with_paper_impl/mvm_proposed(wave).png"   alt="mvm_proposed waveform"  width="48%">
+</p>
 
-# distributed-arithmetic MVM
-vlog +acc +sv rtl/mvm_proposed.sv tb/tb_proposed.sv
-vsim -voptargs=+acc work.tb_proposed
-run -all
+- **Left:** DA unit matching the golden saturated dot-product across trials  
+- **Right:** waveform highlighting per-bit DA accumulation and the same **1-cycle** latency
 
-
+---
 
